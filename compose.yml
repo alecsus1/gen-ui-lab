@@ -1,0 +1,62 @@
+services:
+   influxdb:
+    image: influxdb:1.8
+    container_name: influxdb
+    ports:
+      - "8086:8086"
+    volumes:
+      - influx-data:/var/lib/influxdb
+    environment:
+      INFLUXDB_DB: garmin
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8086/ping"]
+      interval: 5s
+      timeout: 3s
+      retries: 10
+
+   mock-wearable:
+    container_name: mock-wearable
+    build: ./mock-wearable
+    depends_on:
+      influxdb:
+        condition: service_healthy
+    environment:
+      INFLUX_HOST: influxdb
+      INFLUX_DB: garmin
+      MOCK_ACTIVITY: walking
+
+   backend:
+    container_name: backend
+    build: ./backend
+    ports:
+      - "8000:8000"
+    env_file:
+      - .env
+    depends_on:
+      influxdb:
+        condition: service_healthy
+      ollama:
+        condition: service_started
+    environment:
+      INFLUX_HOST: influxdb
+      INFLUX_DB: garmin
+
+   ollama:
+    image: ollama/ollama
+    container_name: ollama
+    ports:
+      - "11434:11434"
+    volumes:
+      - ollama-data:/root/.ollama
+    
+   frontend:
+    build: ./frontend
+    ports:
+      - "3000:3000"
+    depends_on:
+      - backend
+
+
+volumes:
+  influx-data:
+  ollama-data:

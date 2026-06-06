@@ -1,0 +1,10 @@
+# Escludi le variabili d'ambiente locali (password, chiavi API)
+.env
+
+
+# File di sistema e log temporanei
+*.log
+.DS_Store
+
+#escludi cartella node
+frontend/node_modules/
