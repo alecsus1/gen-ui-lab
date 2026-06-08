@@ -43,6 +43,11 @@ Create the environment file:
 ```bash
 cp .env.example .env
 ```
+Then open `.env` and add the required values, including your Thesys API key, for example:
+
+```bash
+THESYS_API_KEY=your_thesys_api_key_here
+```
 
 Start all services:
 
