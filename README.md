@@ -92,3 +92,4 @@ SELECT count("heart_rate") FROM "wearable_metrics";
 ---
 Project by [alecsus1](https://github.com/alecsus1)
 
+<img width="1536" height="1024" alt="image" src="https://github.com/user-attachments/assets/52b7abb9-f954-403e-9f89-1e894fe14a42" />
